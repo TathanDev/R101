@@ -14,5 +14,6 @@ int main() {
         tableau[i] = -1;
     }
     afficherTab(tableau, 20);
-
+    free(tableau);
+    return 0;
 }
