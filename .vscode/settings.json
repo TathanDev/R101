@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "EX6.C": "cpp",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "listes.h": "c"
     }
 }

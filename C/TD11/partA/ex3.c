@@ -79,6 +79,6 @@ int main()
     }
 
     printf("Maintenant estVide renvoie: %d\n", estVide(&pile));
-
+    free(pile.sommet);
     return 0;
 }
