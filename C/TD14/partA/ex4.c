@@ -44,11 +44,13 @@ NoeudAB *creerExempleAB()
     noeud9->valeur = 9;
 
     noeud5->droit = noeud9;
+    noeud5->gauche = NULL;
 
     NoeudAB *noeud4 = malloc(sizeof(NoeudAB));
     noeud4->valeur = 4;
 
     noeud9->gauche = noeud4;
+    noeud9->droit = NULL;
 
     NoeudAB *noeud5_2 = malloc(sizeof(NoeudAB));
     noeud5_2->valeur = 5;
@@ -58,6 +60,15 @@ NoeudAB *creerExempleAB()
 
     noeud6->gauche = noeud5_2;
     noeud6->droit = noeud11;
+
+    noeud2->gauche = NULL;
+    noeud2->droit = NULL;
+    noeud5_2->gauche = NULL;
+    noeud5_2->droit = NULL;
+    noeud11->gauche = NULL;
+    noeud11->droit = NULL;
+    noeud4->gauche = NULL;
+    noeud4->droit = NULL;
 
     return racine;
 }
@@ -73,34 +84,59 @@ void libererArbre(NoeudAB **racine)
     }
 }
 
-void parcourPrefixe(NoeudAB *racine)
+void parcourPrefixe(NoeudAB *racine, bool inverse)
 {
     if (racine != NULL)
     {
         printf("%d ", racine->valeur);
-        parcourPrefixe(racine->gauche);
-        parcourPrefixe(racine->droit);
+        if (!inverse)
+        {
+            parcourPrefixe(racine->gauche, inverse);
+            parcourPrefixe(racine->droit, inverse);
+        }
+        else
+        {
+            parcourPrefixe(racine->droit, inverse);
+            parcourPrefixe(racine->gauche, inverse);
+        }
     }
 }
 
-void parcourInfixe(NoeudAB *racine)
+void parcourInfixe(NoeudAB *racine, bool inverse)
 {
     if (racine != NULL)
     {
-        parcourInfixe(racine->gauche);
-        printf("%d ", racine->valeur);
-        parcourInfixe(racine->droit);
+        if (!inverse)
+        {
+            parcourInfixe(racine->gauche, inverse);
+            printf("%d ", racine->valeur);
+            parcourInfixe(racine->droit, inverse);
+        }
+        else
+        {
+            parcourInfixe(racine->droit, inverse);
+            printf("%d ", racine->valeur);
+            parcourInfixe(racine->gauche, inverse);
+        }
     }
 }
 
-void parcourPostfixe(NoeudAB *racine)
+void parcourPostfixe(NoeudAB *racine, bool inverse)
 {
-
     if (racine != NULL)
     {
-        parcourPostfixe(racine->gauche);
-        parcourPostfixe(racine->droit);
-        printf("%d ", racine->valeur);
+        if (!inverse)
+        {
+            parcourPostfixe(racine->gauche, inverse);
+            parcourPostfixe(racine->droit, inverse);
+            printf("%d ", racine->valeur);
+        }
+        else
+        {
+            parcourPostfixe(racine->droit, inverse);
+            parcourPostfixe(racine->gauche, inverse);
+            printf("%d ", racine->valeur);
+        }
     }
 }
 
@@ -109,13 +145,13 @@ void parcourirProfondeurAB(NoeudAB *racine, DFSOrdre ordre, bool inverse)
     switch (ordre)
     {
     case PRE:
-        parcourPrefixe(racine);
+        parcourPrefixe(racine, inverse);
         break;
     case IN:
-        parcourInfixe(racine);
+        parcourInfixe(racine, inverse);
         break;
     case POST:
-        parcourPostfixe(racine);
+        parcourPostfixe(racine, inverse);
         break;
     }
 }
@@ -126,13 +162,23 @@ int main()
     bool inverse = false;
     puts("Parcours en profondeur dans l'ordre\n---");
 
-    // TODO : implémenter la gestion de l'inverse
     printf("\tPRE: ");
     parcourirProfondeurAB(racine, PRE, inverse);
     printf("\n\tIN: ");
     parcourirProfondeurAB(racine, IN, inverse);
     printf("\n\tPOST: ");
     parcourirProfondeurAB(racine, POST, inverse);
+
+    inverse = true;
+    puts("\n\nParcours en profondeur inversé\n---");
+
+    printf("\tPRE: ");
+    parcourirProfondeurAB(racine, PRE, inverse);
+    printf("\n\tIN: ");
+    parcourirProfondeurAB(racine, IN, inverse);
+    printf("\n\tPOST: ");
+    parcourirProfondeurAB(racine, POST, inverse);
+    puts("");
 
     libererArbre(&racine);
 

@@ -100,18 +100,23 @@ int calculerTailleAB(NoeudAB *racine)
     }
 }
 
-int compterFeuillesAB(NoeudAB* racine) {
-    if (racine == NULL) {
+int compterFeuillesAB(NoeudAB *racine)
+{
+    if (racine == NULL)
+    {
         return 0;
     }
-    if (racine->gauche == NULL && racine->droit == NULL) {
+    if (racine->gauche == NULL && racine->droit == NULL)
+    {
         return 1;
     }
     return compterFeuillesAB(racine->gauche) + compterFeuillesAB(racine->droit);
 }
 
-bool estParfaitAB(NoeudAB* racine) {
-    if (racine == NULL) {
+bool estParfaitAB(NoeudAB *racine)
+{
+    if (racine == NULL)
+    {
         return true;
     }
 
@@ -124,7 +129,7 @@ bool estParfaitAB(NoeudAB* racine) {
 int main()
 {
     NoeudAB *racine = creerExempleAB();
-    //afficherAB(racine);
+    // afficherAB(racine);
 
     printf("Hauteur de l'arbre:     %3d\n", calculerHauteurAB(racine));
     printf("Taille de l'arbre:      %3d\n", calculerTailleAB(racine));
